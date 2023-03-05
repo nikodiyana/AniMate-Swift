@@ -27,8 +27,8 @@ public class AniMateGroup: AniMate {
         
         // Active animating
         if (time >= 0 && time < duration) {
-            if (!startOffsetHasPassed) {
-                startOffsetHasPassed = true
+            if pendingStart {
+                pendingStart = false
                 didStart?()
             }
             dispatchTimestamp(timestamp: timestamp)

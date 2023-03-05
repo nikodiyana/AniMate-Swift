@@ -2,7 +2,7 @@
 
 A simple general purpose Swift animation library. With iOS/MacOS support out of the box.
 
-Version 1.3.0 
+Version 1.3.1 
 Copyright (C) 2023 Niko Di Yana, MIT License
 ***
 
@@ -15,7 +15,7 @@ By default, AniMate uses `CADisplayLink` (`CVDisplayLink` on MacOS) as a frequen
 
 
 ## Install
-Set this package as a dependany in your Xcode Project "Package Dependancy" panel.
+Set this package as a dependancy in your Xcode Project "Package Dependancy" panel.
 
 
 ## Quick start

@@ -62,7 +62,7 @@ public class AniMate {
     public internal(set) var running = false
     
     /// A flag indicating the animation has started after the startOffset time
-    public internal(set) var startOffsetHasPassed = false
+    public internal(set) var pendingStart = true
     
     /// A flag indicating the animation is currently going in reverse
     public private(set) var reversing = false
@@ -193,7 +193,7 @@ public class AniMate {
     
     
     func prepare() {
-        startOffsetHasPassed = false
+        pendingStart = true
         paused = false
         reversing = false
         repeatCountLeft = repeatCount
@@ -212,8 +212,8 @@ public class AniMate {
         
         // Active animating
         if (time >= 0 && time < duration) {
-            if (!startOffsetHasPassed) {
-                startOffsetHasPassed = true
+            if pendingStart {
+                pendingStart = false
                 didStart?()
             }
             progress = time/duration
@@ -290,10 +290,9 @@ public class AniMate {
     
     /// Stops the animation
     public func stop() {
-        startOffsetHasPassed = false
-        paused = false
         pulseGenerator.stop()
         running = false
+        paused = false
         didStop?()
     }
 }
