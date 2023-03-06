@@ -17,16 +17,17 @@ public class AniMate {
     // Global
     //
     public enum Properties {
-        case values(from: Double, to: Double)
+        case from(Double)
+        case to(Double)
         case duration(Double)
         case timingFunction(TimingFunctionCurve?)
-        case to(Double)
         case autoreverse(Bool)
         case `repeat`(UInt64)
-        case repeatForever
         case startOffset(Double)
         case autoreverseOffset(Double)
         case speed(Double)
+        
+        public static var repeatForever: Self { .repeat(.max) }
     }
     
     /// Sets the global speed factor for all AniMate instances
@@ -147,29 +148,22 @@ public class AniMate {
         set {
             newValue.forEach {
                 switch $0 {
-                    case let .values(from: f, to: t):
-                        fromValue = f
-                        toValue = t
+                    case let .from(value): fromValue = value
+                    case let .to(value): toValue = value
                     case let .duration(value): duration = value
                     case let .autoreverse(state): autoreverse = state
                     case let .repeat(count): repeatCount = count
-                    case let .timingFunction(name):
-                            timingFunction = name != nil ? .init(with: name!) : nil
+                    case let .timingFunction(name): timingFunction = name != nil ? .init(with: name!) : nil
                     case let .startOffset(value): startOffset = value
                     case let .autoreverseOffset(value): autoreverseOffset = value
                     case let .speed(value): speed = value
-                        
-                    // Commands
-                    case let .to(value):
-                        self.fromValue = currentValue
-                        toValue = value
-                    case .repeatForever: repeatCount = .max
                 }
             }
         }
         get {
             [
-                .values(from: fromValue, to: toValue),
+                .from(fromValue),
+                .to(toValue),
                 .duration(duration),
                 .autoreverse(autoreverse),
                 .repeat(repeatCount),
@@ -286,6 +280,15 @@ public class AniMate {
         prepare()
         if !running { lastTimestamp = pulseGenerator.start() }
         running = true
+    }
+    
+    /// Starts the animation from the current value to the new value
+    ///
+    /// Can be called when the animation is running.
+    public func start(toValue: Double) {
+        fromValue = currentValue
+        self.toValue = toValue
+        start()
     }
     
     /// Stops the animation
