@@ -26,7 +26,8 @@ Create the animation:
 Then use it:
 
     animation.duration = 5                  // Set the animation to last five seconds
-    animation.set(from: 0, to: 25)          // Set the animation to output a value between 0 and 25
+    animation.fromValue = 0                 // Set the animation start value
+    animation.toValue = 25                  // Set the animation end value
     animation.didUpdate = {                 // This closure will be called on each animation frame
         (value) in
         print("Current value is: \(value))   
