@@ -25,8 +25,12 @@ public class AniMateGroup: AniMate {
         // Accumulate time
         time += timeDiff
         
+        // Change the duration based on master speed setting
+        // The master speed setting is applied in subanimations, not here
+        let durationForSpeed = duration / AniMate.masterSpeed
+        
         // Active animating
-        if (time >= 0 && time < duration) {
+        if (time >= 0 && time < durationForSpeed) {
             if pendingStart {
                 pendingStart = false
                 didStart?()
@@ -35,7 +39,7 @@ public class AniMateGroup: AniMate {
         }
         
         // End condition
-        if (time >= duration) {
+        if (time >= durationForSpeed) {
             dispatchTimestamp(timestamp: timestamp)
             onTimeEnd()
             if repeatCountLeft > 1 {
