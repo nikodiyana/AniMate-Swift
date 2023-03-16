@@ -40,7 +40,7 @@ public class AniMate {
     public lazy var pulseGenerator: AniMateGenerator = DisplayLinkGenerator(for: self)
     
     var lastTimestamp: Double = 0,
-        epsilon: Float = 0.02, // For default duration of 0.25s
+        epsilon: Double = 0.02, // For default duration of 0.25s
         time: Double = 0
                             
     /// Current animation progress, expressed in 0 to 1.0
@@ -109,7 +109,7 @@ public class AniMate {
                 time = progress * duration
             }
             if (duration > 0) { // Protect epsilon to be not 0, which causes endless loop in Timing Function
-                epsilon = 1/(200 * Float(duration))
+                epsilon = 1/(200 * duration)
             }
         }
     }
@@ -260,7 +260,7 @@ public class AniMate {
     /// this function updates the `currentValue` based on the current `progress` value
     public func updateValue() {
         // Apply timing fucntion to progress
-        let timedProgress = timingFunction?.curve.solve(Float(progress), epsilon) ?? progress
+        let timedProgress = timingFunction?.curve.solve(progress, epsilon) ?? progress
         
         // Interpolate between the values with timed progress
         currentValue = fromValue + timedProgress * (toValue - fromValue)

@@ -46,7 +46,7 @@ public class TimingFunction {
         curve = name
     }
     
-    public init(controlPoints c1x: Float, _ c1y: Float, _ c2x: Float, _ c2y: Float) {
+    public init(controlPoints c1x: Double, _ c1y: Double, _ c2x: Double, _ c2y: Double) {
         curve = TimingFunctionCurve(controlPoints: c1x, c1y, c2x, c2y)
     }
 }
@@ -60,11 +60,11 @@ public struct TimingFunctionCurve {
     public static let easeInEaseOut = TimingFunctionCurve(controlPoints: 0.42, 0, 0.58, 1)
     public static let `default` = TimingFunctionCurve(controlPoints: 0.25, 0.01, 0.25, 1)
     
-    let c1x: Float, c1y: Float, c2x: Float, c2y: Float
+    let c1x: Double, c1y: Double, c2x: Double, c2y: Double
     
-    private var ax, bx, cx, ay, by, cy: Float
+    private var ax, bx, cx, ay, by, cy: Double
     
-    init(controlPoints c1x: Float, _ c1y: Float, _ c2x: Float, _ c2y: Float) {
+    init(controlPoints c1x: Double, _ c1y: Double, _ c2x: Double, _ c2y: Double) {
         self.c1x = c1x
         self.c1y = c1y
         self.c2x = c2x
@@ -80,22 +80,22 @@ public struct TimingFunctionCurve {
         ay = 1.0 - cy - by
     }
     
-    func sampleCurveX(_ t: Float) -> Float {
+    func sampleCurveX(_ t: Double) -> Double {
         // `ax t^3 + bx t^2 + cx t' expanded using Horner's rule.
         return ((ax * t + bx) * t + cx) * t;
     }
             
-    func sampleCurveY(_ t: Float) -> Float {
+    func sampleCurveY(_ t: Double) -> Double {
         return ((ay * t + by) * t + cy) * t;
     }
             
-    func sampleCurveDerivativeX(_ t: Float) -> Float {
+    func sampleCurveDerivativeX(_ t: Double) -> Double {
         return (3.0 * ax * t + 2.0 * bx) * t + cx;
     }
     // Given an x value, find a parametric value it came from.
-    func solveCurveX(_ x: Float, _ epsilon: Float) -> Float
+    func solveCurveX(_ x: Double, _ epsilon: Double) -> Double
     {
-        var t0, t1, t2, x2, d2: Float
+        var t0, t1, t2, x2, d2: Double
         //var i: Int
 
         // First try a few iterations of Newton's method -- normally very fast.
@@ -135,7 +135,7 @@ public struct TimingFunctionCurve {
         return t2
     }
 
-    func solve(_ x: Float, _ epsilon: Float) -> Double {
-        return Double(sampleCurveY(solveCurveX(x, epsilon)))
+    func solve(_ x: Double, _ epsilon: Double) -> Double {
+        return sampleCurveY(solveCurveX(x, epsilon))
     }
 }
