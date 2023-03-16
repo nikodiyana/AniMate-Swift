@@ -2,7 +2,6 @@
 
 A simple general purpose Swift animation library. With iOS/MacOS support out of the box.
 
-Version 1.3.2 
 Copyright (C) 2023 Niko Di Yana, MIT License
 ***
 

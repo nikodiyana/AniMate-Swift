@@ -57,6 +57,12 @@ public class AniMateGroup: AniMate {
         }
     }
     
+    public override func updateValue() {
+        animations.allObjects.forEach {
+            $0.updateValue()
+        }
+    }
+    
     public override func start(_ properties: AniMate.Properties...) {
         self.properties = properties
         super.start()
