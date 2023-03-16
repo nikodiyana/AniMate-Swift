@@ -260,7 +260,7 @@ public class AniMate {
     /// this function updates the `currentValue` based on the current `progress` value
     public func updateValue() {
         // Apply timing fucntion to progress
-        let timedProgress = timingFunction?.curve.solve(progress, epsilon/AniMate.masterSpeed) ?? progress
+        let timedProgress = timingFunction?.curve.solve(progress, epsilon*AniMate.masterSpeed) ?? progress
         
         // Interpolate between the values with timed progress
         currentValue = fromValue + timedProgress * (toValue - fromValue)
