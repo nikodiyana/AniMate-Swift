@@ -14,7 +14,21 @@ import Foundation
 public class AniMateGroup: AniMate {
     
     public var animations = NSHashTable<AniMate>.weakObjects()
-            
+    
+    
+    public override var timeOffset: Double {
+        set {
+            time = min(newValue, duration)
+            animations.allObjects.forEach {
+                $0.timeOffset = newValue
+            }
+        }
+        get {
+            return time
+        }
+    }
+    
+    
     override func tick(timestamp: Double) {
         // Get time difference since last pulse
         let timeDiff = (timestamp - lastTimestamp) * speed
